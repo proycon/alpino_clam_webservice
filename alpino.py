@@ -22,12 +22,14 @@ from clam.common.converters import *
 from clam.common.viewers import *
 from clam.common.data import *
 from clam.common.digestauth import pwhash
-from clam.common.data import CLAMMetaData
+from base64 import b64decode as D
 import clam
 import sys
+import os
 
 REQUIRE_VERSION = 0.99
 CLAMDIR = clam.__path__[0]
+WEBSERVICEDIR = os.path.dirname(os.path.abspath(__file__)) #directory where this webservice is installed, detected automatically
 
 # ======== GENERAL INFORMATION ===========
 
@@ -41,32 +43,6 @@ SYSTEM_NAME = "Alpino"
 
 #An informative description for this system (this should be fairly short, about one paragraph, and may not contain HTML)
 SYSTEM_DESCRIPTION = "Alpino is a dependency parser for Dutch, developed in the context of the PIONIER Project Algorithms for Linguistic Processing, developed by Gertjan van Noord at the University of Groningen. You can upload either tokenised or untokenised files (which will be automatically tokenised for you using ucto), the output will consist of a zip file containing XML files, one for each sentence in the input document."
-
-# ======== LOCATION ===========
-
-ALPINO_HOME="/vol/customopt/alpino"
-
-#The root directory for CLAM, all project files, (input & output) and
-#pre-installed corpora will be stored here. Set to an absolute path:
-ROOT = "/home/proycon/tmp/alpino/userdata"
-
-#The URL of the system (If you start clam with the built-in webserver, you can override this with -P)
-PORT= 8080
-
-#The hostname of the system. Will be automatically determined if not set. (If you start clam with the built-in webserver, you can override this with -H)
-#Users *must* make use of this hostname and no other (even if it points to the same IP) for the web application to work.
-#HOST = 'localhost'
-
-#If the webservice runs in another webserver (e.g. apache, nginx, lighttpd), and it
-#doesn't run at the root of the server, you can specify a URL prefix here:
-#URLPREFIX = "/myservice/"
-
-#Optionally, you can force the full URL CLAM has to use, rather than rely on any autodetected measures:
-#FORCEURL = "http://myclamservice.com"
-
-#The location of where CLAM is installed (will be determined automatically if not set)
-#CLAMDIR = "/home/proycon/lamachine/lib/python3.4/site-packages/CLAM-0.99-py3.4.egg/clam" #(automatically detected)
-
 
 
 # ======== AUTHENTICATION & SECURITY ===========
@@ -95,6 +71,64 @@ MAXLOADAVG = 1.0
 
 #Minimum amount of free diskspace in MB. Set to 0 to disable this check (not recommended)
 MINDISKSPACE = 10
+
+# ======== LOCATION ===========
+
+
+#Add a section for your host:
+
+host = os.uname()[1]
+if host == "mhysa" or host == "caprica": #proycon's systems
+    #The root directory for CLAM, all project files, (input & output) and
+    #pre-installed corpora will be stored here. Set to an absolute path:
+    ROOT = "/home/proycon/tmp/alpino/userdata"
+
+    ALPINO_HOME="/home/proycon/work/Alpino/"
+
+    #The URL of the system (If you start clam with the built-in webserver, you can override this with -P)
+    PORT= 8080
+
+    #The hostname of the system. Will be automatically determined if not set. (If you start clam with the built-in webserver, you can override this with -H)
+    #Users *must* make use of this hostname and no other (even if it points to the same IP) for the web application to work.
+    #HOST = 'localhost'
+
+    #If the webservice runs in another webserver (e.g. apache, nginx, lighttpd), and it
+    #doesn't run at the root of the server, you can specify a URL prefix here:
+    #URLPREFIX = "/myservice/"
+
+    #Optionally, you can force the full URL CLAM has to use, rather than rely on any autodetected measures:
+    #FORCEURL = "http://myclamservice.com"
+elif host == 'applejack':  #configuration for server in Nijmegen
+    HOST = "webservices-lst.science.ru.nl"
+    URLPREFIX = 'alpino'
+    ALPINO_HOME="/vol/customopt/alpino/"
+
+    if not 'CLAMTEST' in os.environ:
+        ROOT = "/scratch2/www/webservices-lst/live/writable/alpino/"
+        if 'CLAMSSL' in os.environ:
+            PORT = 443
+        else:
+            PORT = 80
+    else:
+        ROOT = "/scratch2/www/webservices-lst/test/writable/alpino/"
+        PORT = 81
+
+    USERS_MYSQL = {
+        'host': 'mysql-clamopener.science.ru.nl',
+        'user': 'clamopener',
+        'password': D(open(os.environ['CLAMOPENER_KEYFILE']).read().strip()),
+        'database': 'clamopener',
+        'table': 'clamusers_clamusers'
+    }
+    DEBUG = False
+    REALM = "WEBSERVICES-LST"
+    DIGESTOPAQUE = open(os.environ['CLAM_DIGESTOPAQUEFILE']).read().strip()
+    SECRET_KEY = open(os.environ['CLAM_SECRETKEYFILE']).read().strip()
+    ADMINS = ['proycon','antalb','wstoop']
+else:
+    raise Exception("I don't know where I'm running from! Add a section in the configuration corresponding to this host (" + os.uname()[1]+")")
+
+
 
 
 # ======== WEB-APPLICATION STYLING =============
@@ -179,7 +213,7 @@ PROFILES = [
 #                        (set to "anonymous" if there is none)
 #     $PARAMETERS      - List of chosen parameters, using the specified flags
 #
-COMMAND = "/home/proycon/tmp/alpino/alpino_wrapper.py $DATAFILE $STATUSFILE $OUTPUTDIRECTORY " + ALPINO_HOME
+COMMAND = WEBSERVICEDIR + "/alpino_wrapper.py $DATAFILE $STATUSFILE $OUTPUTDIRECTORY " + ALPINO_HOME
 
 #COMMAND = None   #Set to none if you only use the action paradigm
 
