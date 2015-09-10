@@ -170,6 +170,7 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('foliaoutput',FoLiAXMLFormat,'FoLiA XML Output',
+            FoLiAViewer(),
             extension='.folia.xml', #set an extension or set a filename:
             removeextension='.tok',
             multi=True,
@@ -195,6 +196,7 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('foliaoutput',FoLiAXMLFormat,'FoLiA XML Output',
+            FoLiAViewer(),
             extension='.folia.xml', #set an extension or set a filename:
             removeextension='.txt',
             multi=True,
