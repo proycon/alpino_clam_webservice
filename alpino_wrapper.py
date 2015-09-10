@@ -33,7 +33,6 @@ import clam.common.data
 import clam.common.status
 
 from alpino import CUSTOM_FORMATS
-clam.common.data.CUSTOM_FORMATS = CUSTOM_FORMATS
 
 #make a shortcut to the shellsafe() function
 shellsafe = clam.common.data.shellsafe
@@ -47,7 +46,7 @@ ALPINO_HOME = sys.argv[4]
 os.chdir(outputdir)
 
 #Obtain all data from the CLAM system (passed in $DATAFILE (clam.xml))
-clamdata = clam.common.data.getclamdata(datafile)
+clamdata = clam.common.data.getclamdata(datafile, CUSTOM_FORMATS)
 
 #You now have access to all data. A few properties at your disposition now are:
 # clamdata.system_id , clamdata.project, clamdata.user, clamdata.status , clamdata.parameters, clamdata.inputformats, clamdata.outputformats , clamdata.input , clamdata.output
