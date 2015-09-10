@@ -94,11 +94,12 @@ for inputfile in clamdata.input:
     os.chdir("xml")
     os.system("zip ../" + basename + ".alpinoxml.zip *.xml")
     clam.common.status.write(statusfile, "Conversion to FoLiA for " + basename)
+    foliafile = os.path.join(outputdir,basename +'.folia.xml')
     doc = alpino2folia.makefoliadoc(foliafile)
     filenumbers = [ int(os.path.basename(x).replace('.xml','')) for x in glob.glob("*.xml") ]
     for seqnr in sorted(filenumbers):
         doc = alpino2folia.alpino2folia(str(seqnr) + '.xml',doc)
-    doc.save(os.path.join(outputdir,basename +'.folia.xml'))
+    doc.save(foliafix)
     os.chdir('..')
     os.rename('xml','xml_' + basename)
     os.chdir(pwd)
