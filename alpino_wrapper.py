@@ -32,6 +32,9 @@ import glob
 import clam.common.data
 import clam.common.status
 
+from alpino import CUSTOM_FORMATS
+clam.common.data.CUSTOM_FORMATS = CUSTOM_FORMATS
+
 #make a shortcut to the shellsafe() function
 shellsafe = clam.common.data.shellsafe
 
