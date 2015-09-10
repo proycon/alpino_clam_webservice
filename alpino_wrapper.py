@@ -78,7 +78,9 @@ for inputfile in clamdata.input:
     clam.common.status.write(statusfile, "Running Alpino on " + basename)
     pwd = os.getcwd()
     os.chdir(outputdir)
-    r = os.system("ALPINO_HOME=" + shellsafe(ALPINO_HOME) + " " + ALPINO_HOME + "/bin/Alpino -veryfast -flag treebank xml debug=1 end_hook=xml user_max=900000 -parse < "  + tokfile)
+    cmd = "ALPINO_HOME=" + shellsafe(ALPINO_HOME) + " " + ALPINO_HOME + "/bin/Alpino -veryfast -flag treebank xml debug=1 end_hook=xml user_max=900000 -parse < "  + tokfile
+    print(cmd,file=sys.stderr)
+    r = os.system(cmd)
     if r != 0:
         print("Failure running alpino",file=sys.stderr)
         sys.exit(2)

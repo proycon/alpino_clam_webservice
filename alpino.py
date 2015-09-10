@@ -179,6 +179,12 @@ PROFILES = [
             multi=True, #set unique=True if the user may only upload a file for this input template once. Set multi=True if you the user may upload multiple of such files
         ),
         #------------------------------------------------------------------------------------------------------------------------
+        OutputTemplate('tokoutput', PlainTextFormat,"Plaintext tokenised output, one sentence per line",
+            SetMetaField('encoding','utf-8'),
+            removeextensions='.txt',
+            extension='.tok',
+            multi=True,
+        ),
         OutputTemplate('alpinooutput',AlpinoXMLCollection,'Alpino output',
             extension='.alpinoxml.zip', #set an extension or set a filename:
             removeextensions='.txt',
