@@ -57,11 +57,6 @@ clam.common.status.write(statusfile, "Starting...")
 #-- Iterate over all input files? --
 
 for inputfile in clamdata.input:
-    if not os.path.exists("xml"):
-        os.mkdir("xml")
-    else:
-        for filename in glob.glob('xml/*.xml'):
-            os.unlink(filename) #clear for next round
 
     inputtemplate = inputfile.metadata.inputtemplate
     inputfilepath = str(inputfile)
@@ -78,8 +73,15 @@ for inputfile in clamdata.input:
         tokfile = os.path.abspath(inputfilepath)
 
     clam.common.status.write(statusfile, "Running Alpino on " + basename)
+
     pwd = os.getcwd()
     os.chdir(outputdir)
+    if not os.path.exists("xml"):
+        os.mkdir("xml")
+    else:
+        for filename in glob.glob('xml/*.xml'):
+            os.unlink(filename) #clear for next round
+
     cmd = "ALPINO_HOME=" + shellsafe(ALPINO_HOME) + " " + ALPINO_HOME + "/bin/Alpino -veryfast -flag treebank xml debug=1 end_hook=xml user_max=900000 -parse < "  + tokfile
     print(cmd,file=sys.stderr)
     r = os.system(cmd)
