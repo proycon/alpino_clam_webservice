@@ -73,6 +73,7 @@ for inputfile in clamdata.input:
             sys.exit(2)
     else:
         tokfile = os.path.abspath(inputfilepath)
+        os.system("sed -i 's/^M$//' " + shellsafe(tokfile,'"'))  #convert nasty DOS end-of-line to proper unix
 
     clam.common.status.write(statusfile, "Running Alpino on " + basename)
 
