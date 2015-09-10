@@ -34,6 +34,8 @@ import clam.common.status
 
 from alpino import CUSTOM_FORMATS
 
+from foliatools import alpino2folia
+
 #make a shortcut to the shellsafe() function
 shellsafe = clam.common.data.shellsafe
 
@@ -91,9 +93,16 @@ for inputfile in clamdata.input:
 
     os.chdir("xml")
     os.system("zip ../" + basename + ".alpinoxml.zip *.xml")
+    clam.common.status.write(statusfile, "Conversion to FoLiA for " + basename)
+    doc = alpino2folia.makefoliadoc(foliafile)
+    filenumbers = [ int(os.path.basename(x).replace('.xml','')) for x in glob.glob("*.xml") ]
+    for seqnr in sorted(filenumbers):
+        doc = alpino2folia.alpino2folia(str(seqnr) + '.xml',doc)
+    doc.save(foliafile)
     os.chdir('..')
     os.rename('xml','xml_' + basename)
     os.chdir(pwd)
+    
 
 
 #A nice status message to indicate we're done

@@ -167,7 +167,11 @@ PROFILES = [
         OutputTemplate('alpinooutput',AlpinoXMLCollection,'Alpino XML output (XML files per sentence)',
             extension='.alpinoxml.zip', #set an extension or set a filename:
             removeextension='.tok',
-            #filename='filename.stats',
+            multi=True,
+        ),
+        OutputTemplate('foliaoutput',FoLiAXMLFormat,'FoLiA XML Output',
+            extension='.folia.xml', #set an extension or set a filename:
+            removeextension='.tok',
             multi=True,
         ),
     ),
@@ -185,9 +189,14 @@ PROFILES = [
             extension='.tok',
             multi=True,
         ),
-        OutputTemplate('alpinooutput',AlpinoXMLCollection,'Alpino output',
+        OutputTemplate('alpinooutput',AlpinoXMLCollection,'Alpino XML output (XML files per sentence)',
             extension='.alpinoxml.zip', #set an extension or set a filename:
             removeextensions='.txt',
+            multi=True,
+        ),
+        OutputTemplate('foliaoutput',FoLiAXMLFormat,'FoLiA XML Output',
+            extension='.folia.xml', #set an extension or set a filename:
+            removeextension='.txt',
             multi=True,
         ),
     )
