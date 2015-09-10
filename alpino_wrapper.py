@@ -99,7 +99,7 @@ for inputfile in clamdata.input:
     filenumbers = [ int(os.path.basename(x).replace('.xml','')) for x in glob.glob("*.xml") ]
     for seqnr in sorted(filenumbers):
         doc = alpino2folia.alpino2folia(str(seqnr) + '.xml',doc)
-    doc.save(foliafix)
+    doc.save(foliafile)
     os.chdir('..')
     os.rename('xml','xml_' + basename)
     os.chdir(pwd)
