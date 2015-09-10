@@ -66,11 +66,6 @@ ADMINS = None #List of usernames that are administrator and can access the admin
 #Amount of free memory required prior to starting a new process (in MB!), Free Memory + Cached (without swap!). Set to 0 to disable this check (not recommended)
 REQUIREMEMORY = 10
 
-#Maximum load average at which processes are still started (first number reported by 'uptime'). Set to 0 to disable this check (not recommended)
-MAXLOADAVG = 1.0
-
-#Minimum amount of free diskspace in MB. Set to 0 to disable this check (not recommended)
-MINDISKSPACE = 10
 
 # ======== LOCATION ===========
 
