@@ -27,6 +27,7 @@ import codecs
 import re
 import string
 import glob
+import traceback
 
 #import CLAM-specific modules. The CLAM API makes a lot of stuff easily accessible.
 import clam.common.data
@@ -98,9 +99,16 @@ for inputfile in clamdata.input:
     foliafile = os.path.join(outputdir,basename +'.folia.xml')
     doc = alpino2folia.makefoliadoc(foliafile)
     filenumbers = [ int(os.path.basename(x).replace('.xml','')) for x in glob.glob("*.xml") ]
-    for seqnr in sorted(filenumbers):
-        doc = alpino2folia.alpino2folia(str(seqnr) + '.xml',doc)
-    doc.save(foliafile)
+    try:
+        for seqnr in sorted(filenumbers):
+            doc = alpino2folia.alpino2folia(str(seqnr) + '.xml',doc)
+        doc.save(foliafile)
+    except Exception as e: #pylint: disable=broad-except
+        print("Error converting Alpino to FoLiA (" + basename +"): " + str(e), file=sys.stderr) 
+        exc_type, exc_value, exc_traceback = sys.exc_info() 
+        formatted_lines = traceback.format_exc().splitlines() 
+        traceback.print_tb(exc_traceback, limit=50, file=sys.stderr)
+
     os.chdir('..')
     os.rename('xml','xml_' + basename)
     os.chdir(pwd)
