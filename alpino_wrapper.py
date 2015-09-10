@@ -43,7 +43,6 @@ statusfile = sys.argv[2]
 outputdir = sys.argv[3]
 ALPINO_HOME = sys.argv[4]
 
-os.chdir(outputdir)
 
 #Obtain all data from the CLAM system (passed in $DATAFILE (clam.xml))
 clamdata = clam.common.data.getclamdata(datafile, CUSTOM_FORMATS)
@@ -71,12 +70,14 @@ for inputfile in clamdata.input:
     if inputtemplate == 'untokinput':
         #we have to tokenize first
         clam.common.status.write(statusfile, "Tokenizing " + basename)
-        r = os.system('ucto -L nl -n ' + shellsafe(inputfilepath,'"') + ' > ' + shellsafe(tokfile,'"'))
+        r = os.system('ucto -L nl -n ' + shellsafe(inputfilepath,'"') + ' > ' + shellsafe(os.path.join(outputdir,tokfile),'"'))
         if r != 0:
             print("Failure running ucto",file=sys.stderr)
             sys.exit(2)
 
     clam.common.status.write(statusfile, "Running Alpino on " + basename)
+    pwd = os.getcwd()
+    os.chdir(outputdir)
     r = os.system("ALPINO_HOME=" + shellsafe(ALPINO_HOME) + " " + ALPINO_HOME + "/bin/Alpino -veryfast -flag treebank xml debug=1 end_hook=xml user_max=900000 -parse < "  + tokfile)
     if r != 0:
         print("Failure running alpino",file=sys.stderr)
@@ -84,7 +85,7 @@ for inputfile in clamdata.input:
 
     os.chdir("xml")
     os.system("zip ../" + basename + ".alpinoxml.zip *.xml")
-    os.chdir('..')
+    os.chdir(pwd)
 
 
 #A nice status message to indicate we're done
