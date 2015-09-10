@@ -65,7 +65,7 @@ for inputfile in clamdata.input:
 
     inputtemplate = inputfile.metadata.inputtemplate
     inputfilepath = str(inputfile)
-    basename = os.path.basename(inputfile)[:-4] #without extension
+    basename = os.path.basename(inputfilepath)[:-4] #without extension
     tokfile = basename + '.tok'
     if inputtemplate == 'untokinput':
         #we have to tokenize first
