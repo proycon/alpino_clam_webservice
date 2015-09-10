@@ -91,6 +91,8 @@ for inputfile in clamdata.input:
 
     os.chdir("xml")
     os.system("zip ../" + basename + ".alpinoxml.zip *.xml")
+    os.chdir('..')
+    os.rename('xml','xml_' + basename)
     os.chdir(pwd)
 
 
