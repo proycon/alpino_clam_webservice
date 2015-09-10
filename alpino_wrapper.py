@@ -66,14 +66,16 @@ for inputfile in clamdata.input:
     inputtemplate = inputfile.metadata.inputtemplate
     inputfilepath = str(inputfile)
     basename = os.path.basename(inputfilepath)[:-4] #without extension
-    tokfile = basename + '.tok'
     if inputtemplate == 'untokinput':
         #we have to tokenize first
         clam.common.status.write(statusfile, "Tokenizing " + basename)
-        r = os.system('ucto -L nl -n ' + shellsafe(inputfilepath,'"') + ' > ' + shellsafe(os.path.join(outputdir,tokfile),'"'))
+        tokfile = os.path.join(outputdir,basename + '.tok')
+        r = os.system('ucto -L nl -n ' + shellsafe(inputfilepath,'"') + ' > ' + shellsafe(tokfile,'"'))
         if r != 0:
             print("Failure running ucto",file=sys.stderr)
             sys.exit(2)
+    else:
+        tokfile = os.path.abspath(inputfilepath)
 
     clam.common.status.write(statusfile, "Running Alpino on " + basename)
     pwd = os.getcwd()
