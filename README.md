@@ -7,7 +7,7 @@ This is a webservice for [Alpino](http://www.let.rug.nl/vannoord/alp/Alpino/),
 a dependency parser for Dutch developed at the University of Groningen. The
 webservice is powered by [CLAM](https://proycon.github.io/clam).
 
-We host thus webservice on https://webservices-lst.science.ru.nl , register for
+We host this webservice on https://webservices-lst.science.ru.nl , register for
 a free account there if you just want to use our installation.
 
 If you want to deploy the webservice yourself, on your own server, then this
