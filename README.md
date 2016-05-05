@@ -11,9 +11,16 @@ a free account there if you just want to use our installation.
 If you want to deploy the webservice yourself, on your own server, then this
 repository holds the CLAM service configuration and wrapper script. You will
 need to install the dependencies CLAM, FoLiA-tools and PyNLPl (``pip install
-clam folia-tools pynlpl``). If you use your
+clam folia-tools pynlpl``). itself. If you use your
 [LaMachine](https://proycon.github.io/LaMachine) distribution then there are
-all included already. Edit the service configuration file ``alpino.py`` and add
+all included already. 
+
+You will obviously also need
+[Alpino](http://www.let.rug.nl/vannoord/alp/Alpino/) itself, it is not included
+here nor in LaMachine. Make sure it is properly set up with the
+``$ALPINO_HOME`` environment variable pointing to the right path.
+
+Edit the service configuration file ``alpino.py`` and add
 a section for your server. Use the provided ``startserver_development.sh`` or
 ``startserver_production.sh`` script to start the server.
 
