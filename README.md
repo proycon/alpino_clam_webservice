@@ -1,6 +1,8 @@
 Alpino webservice (CLAM-based)
 ===============================
 
+*(Licensed under the GNU Public License v3)*
+
 This is a webservice for [Alpino](http://www.let.rug.nl/vannoord/alp/Alpino/),
 a dependency parser for Dutch developed at the University of Groningen. The
 webservice is powered by [CLAM](https://proycon.github.io/clam).
