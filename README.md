@@ -8,7 +8,8 @@ a dependency parser for Dutch developed at the University of Groningen. The
 webservice is powered by [CLAM](https://proycon.github.io/clam).
 
 We host this webservice on https://webservices-lst.science.ru.nl , register for
-a free account there if you just want to use our installation.
+a free account there if you just want to use our installation. You can also
+consult the [REST API specification](https://webservices-lst.science.ru.nl/alpino/info/) there.
 
 If you want to deploy the webservice yourself, on your own server, then this
 repository holds the CLAM service configuration and wrapper script. You will
