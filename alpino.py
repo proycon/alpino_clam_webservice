@@ -120,6 +120,33 @@ elif host == 'applejack':  #configuration for server in Nijmegen
     DIGESTOPAQUE = open(os.environ['CLAM_DIGESTOPAQUEFILE']).read().strip()
     SECRET_KEY = open(os.environ['CLAM_SECRETKEYFILE']).read().strip()
     ADMINS = ['proycon','antalb','wstoop']
+elif host == 'mlp01':  #configuration for server in Nijmegen
+    HOST = "new.webservices-lst.science.ru.nl"
+    URLPREFIX = 'alpino'
+    ALPINO_HOME="/vol/customopt/alpino/"
+
+    if not 'CLAMTEST' in os.environ:
+        ROOT = "/var/www/webservices-lst/live/writable/alpino/"
+        if 'CLAMSSL' in os.environ:
+            PORT = 443
+        else:
+            PORT = 80
+    else:
+        ROOT = "/var/www/webservices-lst/test/writable/alpino/"
+        PORT = 81
+
+    USERS_MYSQL = {
+        'host': 'mysql-clamopener.science.ru.nl',
+        'user': 'clamopener',
+        'password': D(open(os.environ['CLAMOPENER_KEYFILE']).read().strip()),
+        'database': 'clamopener',
+        'table': 'clamusers_clamusers'
+    }
+    DEBUG = True
+    REALM = "WEBSERVICES-LST"
+    DIGESTOPAQUE = open(os.environ['CLAM_DIGESTOPAQUEFILE']).read().strip()
+    SECRET_KEY = open(os.environ['CLAM_SECRETKEYFILE']).read().strip()
+    ADMINS = ['proycon','antalb','wstoop']
 else:
     raise Exception("I don't know where I'm running from! Add a section in the configuration corresponding to this host (" + os.uname()[1]+")")
 
