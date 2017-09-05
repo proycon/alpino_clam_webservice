@@ -123,7 +123,7 @@ elif host == 'applejack':  #configuration for server in Nijmegen
 elif host == 'mlp01':  #configuration for server in Nijmegen
     HOST = "new.webservices-lst.science.ru.nl"
     URLPREFIX = 'alpino'
-    ALPINO_HOME="/vol/customopt/alpino/"
+    ALPINO_HOME="/var/www/lamachine/Alpino/"
 
     if not 'CLAMTEST' in os.environ:
         ROOT = "/var/www/webservices-lst/live/writable/alpino/"
@@ -166,7 +166,7 @@ class AlpinoXMLCollection(CLAMMetaData):
     mimetype = 'application/zip'
     scheme = '' #for later perhaps
 
-CUSTOM_FORMATS = [ AlpinoXMLCollection ] 
+CUSTOM_FORMATS = [ AlpinoXMLCollection ]
 
 # ======= INTERFACE OPTIONS ===========
 
