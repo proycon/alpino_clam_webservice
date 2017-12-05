@@ -121,7 +121,7 @@ elif host == 'applejack':  #configuration for server in Nijmegen
     SECRET_KEY = open(os.environ['CLAM_SECRETKEYFILE']).read().strip()
     ADMINS = ['proycon','antalb','wstoop']
 elif host == 'mlp01':  #configuration for server in Nijmegen
-    HOST = "new.webservices-lst.science.ru.nl"
+    HOST = "webservices-lst.science.ru.nl"
     URLPREFIX = 'alpino'
     ALPINO_HOME="/var/www/lamachine/Alpino/"
 
