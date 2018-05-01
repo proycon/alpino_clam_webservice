@@ -1,6 +1,9 @@
 Alpino webservice (CLAM-based)
 ===============================
 
+**NOTE: THIS REPOSITORY IS OBSOLETE AND HAS BEEN MERGED INTO [clamservices](https://github.com/proycon/clamservices) !!!**
+
+
 *(Licensed under the GNU Public License v3)*
 
 This is a webservice for [Alpino](http://www.let.rug.nl/vannoord/alp/Alpino/),
@@ -16,7 +19,7 @@ repository holds the CLAM service configuration and wrapper script. You will
 need to install the dependencies CLAM, FoLiA-tools and PyNLPl (``pip install
 clam folia-tools pynlpl``). itself. If you use your
 [LaMachine](https://proycon.github.io/LaMachine) distribution then there are
-all included already. 
+all included already.
 
 You will obviously also need
 [Alpino](http://www.let.rug.nl/vannoord/alp/Alpino/) itself, it is not included
