@@ -1,7 +1,7 @@
 #!/bin/bash
-if [ -z $PYTHONPATH ]; then
-    export PYTHONPATH=/tmp/alpino
+if [ ! -z "$VIRTUAL_ENV" ]; then
+    pip3 install -e .
 else
-    export PYTHONPATH=/tmp/alpino:$PYTHONPATH
+    echo "No virtual environment detected, you have to take care of running pip install yourself!">&2
 fi
-clamservice alpino
+CLAM_HOST=localhost CLAM_PORT=8080 clamservice -d alpino_webservice.alpino_webservice
