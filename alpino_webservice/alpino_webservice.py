@@ -22,14 +22,14 @@ from clam.common.converters import *
 from clam.common.viewers import *
 from clam.common.data import *
 from clam.common.digestauth import pwhash
+import alpino_webservice
 from base64 import b64decode as D
 import clam
 import sys
 import os
 
-REQUIRE_VERSION = 0.99
-CLAMDIR = clam.__path__[0]
-WEBSERVICEDIR = os.path.dirname(os.path.abspath(__file__)) #directory where this webservice is installed, detected automatically
+REQUIRE_VERSION = "3.1.4"
+WRAPPERDIR = os.path.dirname(os.path.abspath(__file__)) #directory where this webservice is installed, detected automatically
 
 # ======== GENERAL INFORMATION ===========
 
@@ -39,11 +39,24 @@ WEBSERVICEDIR = os.path.dirname(os.path.abspath(__file__)) #directory where this
 #The System ID, a short alphanumeric identifier for internal use only
 SYSTEM_ID = "alpino"
 #System name, the way the system is presented to the world
-SYSTEM_NAME = "Alpino"
+SYSTEM_NAME = "Alpino Webservice"
+
+SYSTEM_VERSION = "2.3"
 
 #An informative description for this system (this should be fairly short, about one paragraph, and may not contain HTML)
 SYSTEM_DESCRIPTION = "Alpino is a dependency parser for Dutch, developed in the context of the PIONIER Project Algorithms for Linguistic Processing, developed by Gertjan van Noord at the University of Groningen. You can upload either tokenised or untokenised files (which will be automatically tokenised for you using ucto), the output will consist of a zip file containing XML files, one for each sentence in the input document."
 
+SYSTEM_AUTHOR = "Gertjan van Noord (backend), Maarten van Gompel (webservice)"
+
+SYSTEM_AFFILIATION = "Rijksuniversiteit Groningen (backend), Radboud Universiteit Nijmegen (webservice)"
+
+SYSTEM_URL = "http://www.let.rug.nl/vannoord/alp/Alpino/"
+
+SYSTEM_EMAIL = "lamasoftware@science.ru.nl"
+
+SYSTEM_LICENSE = "GNU General Public License v3" #applies to the webservice, Alpino is LGPL
+
+INTERFACEOPTIONS = "centercover,coverheight100"
 
 # ======== AUTHENTICATION & SECURITY ===========
 
@@ -54,109 +67,16 @@ SYSTEM_DESCRIPTION = "Alpino is a dependency parser for Dutch, developed in the 
 
 USERS = None #no user authentication/security (this is not recommended for production environments!)
 
-ADMINS = None #List of usernames that are administrator and can access the administrative web-interface (on URL /admin/)
+DEBUG = False
+FLATURL = None
+SWITCHBOARD_FORWARD_URL = None
+FROG_FORWARD_URL = None
 
-#If you want to enable user-based security, you can define a dictionary
-#of users and (hashed) passwords here. The actual authentication will proceed
-#as HTTP Digest Authentication. Although being a convenient shortcut,
-#using pwhash and plaintext password in this code is not secure!!
+if 'ALPINO_HOME' in os.environ:
+    ALPINO_HOME = os.environ['ALPINO_HOME']
 
-#USERS = { user1': '4f8dh8337e2a5a83734b','user2': pwhash('username', REALM, 'secret') }
-
-#Amount of free memory required prior to starting a new process (in MB!), Free Memory + Cached (without swap!). Set to 0 to disable this check (not recommended)
-REQUIREMEMORY = 10
-
-
-# ======== LOCATION ===========
-
-
-#Add a section for your host:
-
-host = os.uname()[1]
-if host == "mhysa" or host == "caprica": #proycon's systems
-    #The root directory for CLAM, all project files, (input & output) and
-    #pre-installed corpora will be stored here. Set to an absolute path:
-    ROOT = "/home/proycon/tmp/alpino/userdata"
-
-    ALPINO_HOME="/home/proycon/work/Alpino/"
-
-    #The URL of the system (If you start clam with the built-in webserver, you can override this with -P)
-    PORT= 8080
-
-    #The hostname of the system. Will be automatically determined if not set. (If you start clam with the built-in webserver, you can override this with -H)
-    #Users *must* make use of this hostname and no other (even if it points to the same IP) for the web application to work.
-    #HOST = 'localhost'
-
-    #If the webservice runs in another webserver (e.g. apache, nginx, lighttpd), and it
-    #doesn't run at the root of the server, you can specify a URL prefix here:
-    #URLPREFIX = "/myservice/"
-
-    #Optionally, you can force the full URL CLAM has to use, rather than rely on any autodetected measures:
-    #FORCEURL = "http://myclamservice.com"
-elif host == 'applejack':  #configuration for server in Nijmegen
-    HOST = "webservices-lst.science.ru.nl"
-    URLPREFIX = 'alpino'
-    ALPINO_HOME="/vol/customopt/alpino/"
-
-    if not 'CLAMTEST' in os.environ:
-        ROOT = "/scratch2/www/webservices-lst/live/writable/alpino/"
-        if 'CLAMSSL' in os.environ:
-            PORT = 443
-        else:
-            PORT = 80
-    else:
-        ROOT = "/scratch2/www/webservices-lst/test/writable/alpino/"
-        PORT = 81
-
-    USERS_MYSQL = {
-        'host': 'mysql-clamopener.science.ru.nl',
-        'user': 'clamopener',
-        'password': D(open(os.environ['CLAMOPENER_KEYFILE']).read().strip()),
-        'database': 'clamopener',
-        'table': 'clamusers_clamusers'
-    }
-    DEBUG = True
-    REALM = "WEBSERVICES-LST"
-    DIGESTOPAQUE = open(os.environ['CLAM_DIGESTOPAQUEFILE']).read().strip()
-    SECRET_KEY = open(os.environ['CLAM_SECRETKEYFILE']).read().strip()
-    ADMINS = ['proycon','antalb','wstoop']
-elif host == 'mlp01':  #configuration for server in Nijmegen
-    HOST = "webservices-lst.science.ru.nl"
-    URLPREFIX = 'alpino'
-    ALPINO_HOME="/var/www/lamachine/Alpino/"
-
-    if not 'CLAMTEST' in os.environ:
-        ROOT = "/var/www/webservices-lst/live/writable/alpino/"
-        if 'CLAMSSL' in os.environ:
-            PORT = 443
-        else:
-            PORT = 80
-    else:
-        ROOT = "/var/www/webservices-lst/test/writable/alpino/"
-        PORT = 81
-
-    USERS_MYSQL = {
-        'host': 'mysql-clamopener.science.ru.nl',
-        'user': 'clamopener',
-        'password': D(open(os.environ['CLAMOPENER_KEYFILE']).read().strip()),
-        'database': 'clamopener',
-        'table': 'clamusers_clamusers'
-    }
-    DEBUG = True
-    REALM = "WEBSERVICES-LST"
-    DIGESTOPAQUE = open(os.environ['CLAM_DIGESTOPAQUEFILE']).read().strip()
-    SECRET_KEY = open(os.environ['CLAM_SECRETKEYFILE']).read().strip()
-    ADMINS = ['proycon','antalb','wstoop']
-else:
-    raise Exception("I don't know where I'm running from! Add a section in the configuration corresponding to this host (" + os.uname()[1]+")")
-
-
-
-
-# ======== WEB-APPLICATION STYLING =============
-
-#Choose a style (has to be defined as a CSS file in clam/style/ ). You can copy, rename and adapt it to make your own style
-STYLE = 'classic'
+#Load external configuration file
+loadconfig(__name__)
 
 # ======== ENABLED FORMATS ===========
 
@@ -167,17 +87,6 @@ class AlpinoXMLCollection(CLAMMetaData):
     scheme = '' #for later perhaps
 
 CUSTOM_FORMATS = [ AlpinoXMLCollection ]
-
-# ======= INTERFACE OPTIONS ===========
-
-#Here you can specify additional interface options (space separated list), see the documentation for all allowed options
-#INTERFACEOPTIONS = "inputfromweb" #allow CLAM to download its input from a user-specified url
-
-# ======== PREINSTALLED DATA ===========
-
-#INPUTSOURCES = [
-#    InputSource(id='sampledocs',label='Sample texts',path=ROOT+'/inputsources/sampledata',defaultmetadata=PlainTextFormat(None, encoding='utf-8') ),
-#]
 
 # ======== PROFILE DEFINITIONS ===========
 
@@ -198,6 +107,8 @@ PROFILES = [
         ),
         OutputTemplate('foliaoutput',FoLiAXMLFormat,'FoLiA XML Output',
             FoLiAViewer(),
+            ForwardViewer(id='switchboardforwarder',name="Open in CLARIN Switchboard",forwarder=Forwarder('switchboard','CLARIN Switchboard',SWITCHBOARD_FORWARD_URL),allowdefault=False) if SWITCHBOARD_FORWARD_URL else None,
+            ForwardViewer(id='frogforwarder',name="Continue with Frog",forwarder=Forwarder('frog','Frog',FROG_FORWARD_URL)) if FROG_FORWARD_URL else None,
             extension='.folia.xml', #set an extension or set a filename:
             removeextension='.tok',
             multi=True,
@@ -213,6 +124,7 @@ PROFILES = [
         #------------------------------------------------------------------------------------------------------------------------
         OutputTemplate('tokoutput', PlainTextFormat,"Plaintext tokenised output, one sentence per line",
             SetMetaField('encoding','utf-8'),
+            ForwardViewer(id='switchboardforwarder',name="Open in CLARIN Switchboard",forwarder=Forwarder('switchboard','CLARIN Switchboard',SWITCHBOARD_FORWARD_URL),allowdefault=False) if SWITCHBOARD_FORWARD_URL else None,
             removeextensions='.txt',
             extension='.tok',
             multi=True,
@@ -224,6 +136,9 @@ PROFILES = [
         ),
         OutputTemplate('foliaoutput',FoLiAXMLFormat,'FoLiA XML Output',
             FoLiAViewer(),
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            ForwardViewer(id='switchboardforwarder',name="Open in CLARIN Switchboard",forwarder=Forwarder('switchboard','CLARIN Switchboard',SWITCHBOARD_FORWARD_URL),allowdefault=False) if SWITCHBOARD_FORWARD_URL else None,
+            ForwardViewer(id='frogforwarder',name="Continue with Frog",forwarder=Forwarder('frog','Frog',FROG_FORWARD_URL)) if FROG_FORWARD_URL else None,
             extension='.folia.xml', #set an extension or set a filename:
             removeextension='.txt',
             multi=True,
@@ -252,7 +167,7 @@ PROFILES = [
 #                        (set to "anonymous" if there is none)
 #     $PARAMETERS      - List of chosen parameters, using the specified flags
 #
-COMMAND = WEBSERVICEDIR + "/alpino_wrapper.py $DATAFILE $STATUSFILE $OUTPUTDIRECTORY " + ALPINO_HOME
+COMMAND = WRAPPERDIR + "/alpino_wrapper.py $DATAFILE $STATUSFILE $OUTPUTDIRECTORY " + ALPINO_HOME
 
 #COMMAND = None   #Set to none if you only use the action paradigm
 

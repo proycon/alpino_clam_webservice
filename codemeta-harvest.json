@@ -1,0 +1,18 @@
+{
+    "@context": [
+        "https://doi.org/10.5063/schema/codemeta-2.0",
+        "http://schema.org"
+    ],
+    "softwareRequirements": [
+        {
+            "@type": "SoftwareApplication",
+            "identifier": "alpino",
+            "name": "Alpino"
+        },
+        {
+            "@type": "SoftwareApplication",
+            "identifier": "ucto",
+            "name": "ucto"
+        }
+    ]
+}
