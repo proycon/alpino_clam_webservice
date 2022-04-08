@@ -39,5 +39,5 @@ setup(
     ],
     package_data = {'alpino_webservice':['*.wsgi','*.yml','*.sh'] },
     include_package_data=True,
-    install_requires=['CLAM >= 3.1.4', 'FoLiA-tools'] #Alpino is also required but is an external dependency that setuptools can't handle, we specify it in codemeta-harvest.json for metadata harvesting purposes
+    install_requires=['CLAM >= 3.1.4', 'FoLiA-tools', 'natsort'] #Alpino is also required but is an external dependency that setuptools can't handle, we specify it in codemeta-harvest.json for metadata harvesting purposes
 )
