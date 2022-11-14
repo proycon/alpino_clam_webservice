@@ -1,4 +1,4 @@
-FROM debian:11.2-slim AS alpino
+FROM debian:11.4-slim AS alpino
 LABEL org.opencontainers.image.title="Alpino" \
       org.opencontainers.image.authors="Maarten van Gompel <proycon@anaproy.nl>" \
       org.opencontainers.image.description="Alpino" \
