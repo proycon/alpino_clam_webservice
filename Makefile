@@ -1,6 +1,6 @@
 docker:
-	docker build -t proycon/alpino_webservice:latest .
+	docker build --no-cache -t proycon/alpino_webservice:latest .
 
 docker-dev:
-	docker build -t proycon/alpino_webservice:dev --build-arg VERSION=development .
+	docker build --no-cache -t proycon/alpino_webservice:dev --build-arg VERSION=development .
 
