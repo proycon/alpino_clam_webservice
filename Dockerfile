@@ -18,6 +18,7 @@ RUN apt-get update && \
         autoconf \
         bzip2 \
         unzip \
+        zip \
         wget \
         curl \
         libtool \
