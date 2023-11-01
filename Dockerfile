@@ -1,4 +1,4 @@
-FROM debian:11.4-slim AS alpino
+FROM debian:12.2-slim AS alpino
 LABEL org.opencontainers.image.title="Alpino" \
       org.opencontainers.image.authors="Maarten van Gompel <proycon@anaproy.nl>" \
       org.opencontainers.image.description="Alpino" \
@@ -24,7 +24,6 @@ RUN apt-get update && \
         libtool \
         git \
         subversion \
-        python2.7-minimal \
         python3-minimal \
         zlib1g-dev \
         ca-certificates \
@@ -115,7 +114,7 @@ RUN cp /usr/src/webservice/runit.d/nginx.run.sh /etc/service/nginx/run &&\
     cp -f /usr/src/webservice/alpino_webservice.nginx.conf /etc/nginx/sites-enabled/default
 
 # Install the the service itself
-RUN cd /usr/src/webservice && pip install . && rm -Rf /usr/src/webservice
+RUN cd /usr/src/webservice && pip install --break-system-packages . && rm -Rf /usr/src/webservice
 RUN ln -s /usr/local/lib/python3.*/dist-packages/clam /opt/clam
 
 VOLUME ["/data"]
