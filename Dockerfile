@@ -1,4 +1,4 @@
-FROM debian:12.2-slim AS alpino
+FROM debian:12.7-slim AS alpino
 LABEL org.opencontainers.image.title="Alpino" \
       org.opencontainers.image.authors="Maarten van Gompel <proycon@anaproy.nl>" \
       org.opencontainers.image.description="Alpino" \
@@ -44,9 +44,9 @@ ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # Downloading the index triggers a new download of Alpino when anything in the index has changed
-ADD http://www.let.rug.nl/vannoord/alp/Alpino/versions/binary/ /index
+ADD https://www.let.rug.nl/vannoord/alp/Alpino/versions/binary/ /index
 RUN cd / && rm index && \
-    curl -s http://www.let.rug.nl/vannoord/alp/Alpino/versions/binary/latest.tar.gz | tar --no-same-owner -vxzf - &&\
+    curl -s https://www.let.rug.nl/vannoord/alp/Alpino/versions/binary/latest.tar.gz | tar --no-same-owner -vxzf - &&\
     find /Alpino -name '.nfs*' | xargs rm -f  # Remove stale nfs files
 
 # Add libraries to standard path
