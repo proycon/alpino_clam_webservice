@@ -41,7 +41,7 @@ SYSTEM_ID = "alpino"
 #System name, the way the system is presented to the world
 SYSTEM_NAME = "Alpino Webservice"
 
-SYSTEM_VERSION = "2.4"
+SYSTEM_VERSION = "2.4.1"
 
 #An informative description for this system (this should be fairly short, about one paragraph, and may not contain HTML)
 SYSTEM_DESCRIPTION = "Alpino is a dependency parser for Dutch, developed in the context of the PIONIER Project Algorithms for Linguistic Processing, developed by Gertjan van Noord at the University of Groningen. You can upload either tokenised or untokenised files (which will be automatically tokenised for you using ucto), the output will consist of a zip file containing XML files, one for each sentence in the input document."

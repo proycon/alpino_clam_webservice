@@ -15,7 +15,7 @@ def getreadme():
 
 setup(
     name = "Alpino Webservice",
-    version = "2.4", #make sure SYSTEM_VERSION in your service configuration is set to the same value!
+    version = "2.4.1", #make sure SYSTEM_VERSION in your service configuration is set to the same value!
     author = "Maarten van Gompel", #adapt this
     description = ("Alpino is a dependency parser for Dutch, developed in the context of the PIONIER Project Algorithms for Linguistic Processing, developed by Gertjan van Noord at the University of Groningen. This is the webservice for it. You can upload either tokenised or untokenised files (which will be automatically tokenised for you using ucto), the output will consist of a zip file containing XML files, one for each sentence in the input document."),
     license = "GPL-3.0-only",

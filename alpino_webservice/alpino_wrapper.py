@@ -87,7 +87,7 @@ for inputfile in clamdata.input:
         for filename in glob.glob('xml/*.xml'):
             os.unlink(filename) #clear for next round
 
-    cmd = "ALPINO_HOME=" + shellsafe(ALPINO_HOME) + " " + ALPINO_HOME + "/bin/Alpino -veryfast -flag treebank xml debug=1 end_hook=xml user_max=900000 -parse < "  + tokfile
+    cmd = "ALPINO_HOME=" + shellsafe(ALPINO_HOME) + " " + ALPINO_HOME + "/bin/Alpino -veryfast -flag treebank xml debug=1 end_hook=xml user_max=900000 -parse < "  + shellsafe(tokfile)
     print(cmd,file=sys.stderr)
     r = os.system(cmd)
     if r != 0:
